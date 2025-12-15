@@ -53,7 +53,11 @@ class GroqClient:
             top_p=top_p,
         )
         
-        return completion.choices[0].message.content
+        if not completion.choices:
+            raise ValueError("No response received from API")
+        
+        content = completion.choices[0].message.content
+        return content if content is not None else ""
     
     def simple_prompt(self, prompt: str, system_message: Optional[str] = None) -> str:
         """
