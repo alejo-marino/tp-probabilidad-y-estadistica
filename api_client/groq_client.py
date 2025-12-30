@@ -1,27 +1,30 @@
 """
-Groq API Client for llama-3.1-8b model.
+Cliente de API para Groq con el modelo llama-3.1-8b.
 """
 
 import os
 from typing import Optional, List, Dict
 from groq import Groq
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 
 class GroqClient:
-    """Client for interacting with Groq's llama-3.1-8b model."""
+    """Cliente para interactuar con el modelo llama-3.1-8b de Groq."""
     
     DEFAULT_MODEL = "llama-3.1-8b-instant"
     
     def __init__(self, api_key: Optional[str] = None):
         """
-        Initialize Groq client.
+        Inicializa el cliente de Groq.
         
         Args:
-            api_key: Groq API key. If not provided, will look for GROQ_API_KEY in environment.
+            api_key: API key de Groq. Si no se provee, busca GROQ_API_KEY en el entorno.
         """
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         if not self.api_key:
-            raise ValueError("API key must be provided or set in GROQ_API_KEY environment variable")
+            raise ValueError("Se debe proveer una API key o configurar GROQ_API_KEY como variable de entorno")
         
         self.client = Groq(api_key=self.api_key)
         self.model = self.DEFAULT_MODEL
@@ -34,16 +37,16 @@ class GroqClient:
         top_p: float = 1.0,
     ) -> str:
         """
-        Send a chat request to the model.
+        Envía una solicitud de chat al modelo.
         
         Args:
-            messages: List of message dictionaries with 'role' and 'content' keys
-            temperature: Sampling temperature (0-2)
-            max_tokens: Maximum number of tokens to generate
-            top_p: Top-p sampling parameter
+            messages: Lista de mensajes con claves 'role' y 'content'
+            temperature: Parámetro de temperatura para el muestreo (0-2)
+            max_tokens: Cantidad máxima de tokens a generar
+            top_p: Parámetro top-p para el muestreo
             
         Returns:
-            Model's response content as string
+            Contenido de la respuesta del modelo como string
         """
         completion = self.client.chat.completions.create(
             model=self.model,
@@ -54,21 +57,21 @@ class GroqClient:
         )
         
         if not completion.choices:
-            raise ValueError("No response received from API")
+            raise ValueError("No se recibió respuesta de la API")
         
         content = completion.choices[0].message.content
         return content if content is not None else ""
     
     def simple_prompt(self, prompt: str, system_message: Optional[str] = None) -> str:
         """
-        Send a simple prompt to the model.
+        Envía un prompt simple al modelo.
         
         Args:
-            prompt: User prompt
-            system_message: Optional system message to set context
+            prompt: Mensaje del usuario
+            system_message: Mensaje de sistema opcional para contexto
             
         Returns:
-            Model's response content as string
+            Contenido de la respuesta del modelo como string
         """
         messages = []
         
