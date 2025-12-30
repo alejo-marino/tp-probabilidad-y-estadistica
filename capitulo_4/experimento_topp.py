@@ -1,9 +1,9 @@
 """
-Experimento del Capítulo 4: Distribuciones Inducidas (Temperatura)
+Experimento del Capítulo 4 - Parte 2: Variación de Top-P
 
 Objetivo:
-Analizar cómo la temperatura afecta la distribución de respuestas de un modelo generativo
-ante un prompt de clasificación fija (A, B, C, D).
+Analizar cómo el parámetro Top-P afecta la distribución de respuestas de un modelo generativo
+manteniendo la temperatura fija.
 """
 
 import sys
@@ -19,18 +19,21 @@ from api_client import GroqClient
 MODEL = "llama-3.1-8b-instant"
 PROMPT = "Elegí una de las siguientes opciones y respondé únicamente con la opción elegida: A, B, C o D."
 N_REQUESTS_PER_CONFIG = 500
-OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "resultados.csv")
+OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "resultados_topp.csv")
 
-# Configuraciones a probar: variamos la temperatura
+FIXED_TEMP = 0.7  # Temperatura fija
+
+# Configuraciones a probar: variamos Top-P
 CONFIGS = [
-    {"name": "Temp Baja", "temperature": 0.2, "top_p": 1.0},
-    {"name": "Temp Media", "temperature": 0.7, "top_p": 1.0},
-    {"name": "Temp Alta", "temperature": 1.2, "top_p": 1.0},
+    {"name": "Top-P 1.0 (Base)", "temperature": FIXED_TEMP, "top_p": 1.0},
+    {"name": "Top-P 0.9", "temperature": FIXED_TEMP, "top_p": 0.9},
+    {"name": "Top-P 0.6", "temperature": FIXED_TEMP, "top_p": 0.6},
 ]
 
 def run_experiment():
-    print("=== Capítulo 4 - Distribuciones Inducidas ===")
+    print("=== Capítulo 4 - Experimento 2: Top-P ===")
     print(f"Modelo: {MODEL}")
+    print(f"Temp Fija: {FIXED_TEMP}")
     print(f"Configs: {len(CONFIGS)}")
     print(f"Requests por config: {N_REQUESTS_PER_CONFIG}")
     
@@ -44,7 +47,7 @@ def run_experiment():
     total_start = time.time()
 
     for config in CONFIGS:
-        print(f"\nEjecutando configuración: {config['name']} (T={config['temperature']})")
+        print(f"\nEjecutando configuración: {config['name']} (Top-P={config['top_p']})")
         
         for i in range(1, N_REQUESTS_PER_CONFIG + 1):
             print(f"  Req {i}/{N_REQUESTS_PER_CONFIG}...", end="", flush=True)
@@ -54,7 +57,7 @@ def run_experiment():
                     messages=[{"role": "user", "content": PROMPT}],
                     temperature=config["temperature"],
                     top_p=config["top_p"],
-                    max_tokens=10  # Respuesta corta esperada
+                    max_tokens=10
                 )
                 print(f" OK [{response.strip()}]")
                 
@@ -76,7 +79,8 @@ def run_experiment():
                     "timestamp": datetime.now().isoformat()
                 })
             
-            time.sleep(0.2)
+            time.sleep(0.05)
+        print("")
 
     total_duration = time.time() - total_start
     print(f"\nExperimento finalizado en {total_duration:.2f}s")

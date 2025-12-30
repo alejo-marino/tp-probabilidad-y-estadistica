@@ -1,3 +1,3 @@
 """
-Capítulo 4 - Experimentos con LLM
+Capítulo 4 — Distribuciones inducidas en modelos generativos
 """
