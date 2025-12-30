@@ -1,5 +1,6 @@
 # tp-probabilidad-y-estadistica
-Repositorio destinado al Trabajo de Probabilidad y Estadistica desarrollado por Alejo Tomás Mariño en Diciembre 2025
+
+Repositorio destinado al Trabajo de Probabilidad y Estadística desarrollado por Alejo Tomás Mariño en Diciembre 2025
 
 ## Estructura del Proyecto
 
@@ -11,21 +12,22 @@ tp-probabilidad-y-estadistica/
 │   ├── __init__.py
 │   ├── groq_client.py
 │   └── README.md
-├── capitulo_1/          # Experimentos del capítulo 1
-│   ├── __init__.py
+├── capitulo_1/          # Probabilidad clásica y colisiones
 │   ├── experimento.py
+│   ├── analisis.py
 │   └── README.md
-├── capitulo_2/          # Experimentos del capítulo 2
-│   ├── __init__.py
+├── capitulo_2/          # Estimación de eventos raros
 │   ├── experimento.py
+│   ├── analisis.py
 │   └── README.md
-├── capitulo_3/          # Experimentos del capítulo 3
-│   ├── __init__.py
+├── capitulo_3/          # Procesos de Poisson/Exponencial
 │   ├── experimento.py
+│   ├── analisis.py
 │   └── README.md
-├── capitulo_4/          # Experimentos del capítulo 4
-│   ├── __init__.py
+├── capitulo_4/          # Distribuciones inducidas
 │   ├── experimento.py
+│   ├── experimento_topp.py
+│   ├── analisis.py
 │   └── README.md
 ├── .gitignore
 ├── requirements.txt
@@ -73,26 +75,26 @@ Ver [api_client/README.md](api_client/README.md) para más detalles.
 
 ### Experimentos por Capítulo
 
-Cada capítulo tiene su propio directorio con un archivo `experimento.py` que se puede ejecutar independientemente:
+Cada capítulo tiene su propio directorio con scripts que se pueden ejecutar independientemente:
 
 ```bash
-# Capítulo 1
-cd capitulo_1
-python experimento.py
+# Capítulo 1 - Colisiones (Problema del Cumpleaños)
+python capitulo_1/experimento.py
+python capitulo_1/analisis.py
 
-# Capítulo 2
-cd capitulo_2
-python experimento.py
+# Capítulo 2 - Eventos Raros
+python capitulo_2/experimento.py
+python capitulo_2/analisis.py
 
-# Y así sucesivamente...
+# Capítulo 3 - Poisson/Exponencial
+python capitulo_3/experimento.py
+python capitulo_3/analisis.py
+
+# Capítulo 4 - Distribuciones Inducidas
+python capitulo_4/experimento.py
+python capitulo_4/analisis.py
 ```
 
 ## Modelo LLM
 
 Este proyecto utiliza el modelo **llama-3.1-8b-instant** a través de la API de Groq.
-
-## Notas
-
-- Este es un proyecto académico para un curso de Probabilidad y Estadística
-- La calidad del código no es el foco principal, sino los experimentos y resultados
-- Cada capítulo es independiente y puede tener diferentes tipos de experimentos
