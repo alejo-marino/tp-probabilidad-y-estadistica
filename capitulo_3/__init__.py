@@ -1,3 +1,3 @@
 """
-Capítulo 3 - Experimentos con LLM
+Capítulo 3 — Procesos de llegada (Poisson/Exponencial) sobre tiempos de respuesta
 """
