@@ -1,3 +1,3 @@
 """
-Capítulo 2 - Experimentos con LLM
+Capítulo 2 – Estimación de eventos raros en modelos generativos
 """
